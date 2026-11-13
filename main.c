@@ -338,7 +338,6 @@ void	test_strlcpy(size_t (*testfunc)(char*, const char*, size_t))
 	size_t returned_value;
 	size_t ft_returned_value;
 	char source[] = "abcdefghijklmnopqrstuvwxyzhhhhh";
-	char source2[] = "abcdefghijklmnopqrstuvwxyzhhhhh";
     char destination[] = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 	char ft_destination[] = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 	char *buffer_dest = strdup("ABCDEFGHIJKLMNOPQRSTUVWXYZ");
@@ -369,141 +368,283 @@ void	test_strlcpy(size_t (*testfunc)(char*, const char*, size_t))
 	char *buffer_source13 = strdup("");
 	char *buffer_dest14 = strdup("ABCDEFGHIJKLMNOPQRSTUVWXYZ");
 	char *buffer_source14 = strdup("");
-	char *malloced_destination;
-	char *ft_malloced_destination;
 
-	malloced_destination = malloc(40);
-	ft_malloced_destination = malloc(40);
-
-	printf("Testing without memory allocation;\n");
+	// printf("Testing without memory allocation;\n");
 
     testfunc(ft_destination, source, 24);
 	strlcpy(destination, source, 24);
-	printf("Source string: %s\n", source);
-    printf("Destination string with our function: (24 bytes) %s\n", ft_destination);
-	printf("Destination string with the real strlcpy: (24 bytes) %s\n", destination);
+	// printf("Source string: %s\n", source);
+    // printf("Destination string with our function: (24 bytes) %s\n", ft_destination);
+	// printf("Destination string with the real strlcpy: (24 bytes) %s\n", destination);
 	assert(strcmp(ft_destination, destination) == 0);
 
-	printf("\nTesting with memory allocation;\n");
-
-    testfunc(ft_malloced_destination, source, 24);
-	strlcpy(malloced_destination, source, 24);
-	printf("Source string: %s\n", source);
-    printf("Destination string with our function: (24 bytes) %s\n", ft_malloced_destination);
-	printf("Destination string with the real strlcpy: (24 bytes) %s\n", malloced_destination);
-	assert(strcmp(ft_malloced_destination, malloced_destination) == 0);
-
-	printf("\nTesting overwritting string;\n");
-
-    testfunc(ft_malloced_destination, source2, 14);
-	strlcpy(malloced_destination, source2, 14);
-	printf("Second source string: %s\n", source2);
-    printf("Destination string with our function: (14 bytes) %s\n", ft_malloced_destination);
-	printf("Destination string with the real strlcpy: (14 bytes) %s\n", malloced_destination);
-	assert(strcmp(ft_malloced_destination, malloced_destination) == 0);
-
-	returned_value = strlcpy(buffer_dest, buffer_source, sizeof(buffer_dest));
+	returned_value = strlcpy(buffer_dest, buffer_source, strlen(buffer_dest));
 	// print_with_nulls(buffer_dest, 32);
 	// printf("%zu\n", returned_value);
-	ft_returned_value = ft_strlcpy(buffer_dest2, buffer_source2, sizeof(buffer_dest2));
+	ft_returned_value = testfunc(buffer_dest2, buffer_source2, strlen(buffer_dest2));
 	// print_with_nulls(buffer_dest2, 32);
-	// printf("%zu\n", returned_value);
+	// printf("%zu/\n", returned_value);
 
 	assert(memcmp(buffer_dest, buffer_dest2, sizeof(*buffer_dest)) == 0);
 	assert(returned_value == ft_returned_value);
 
-	returned_value = strlcpy(buffer_dest4, buffer_source4, sizeof(buffer_dest4));
+	returned_value = strlcpy(buffer_dest4, buffer_source4, strlen(buffer_dest4));
 	// print_with_nulls(buffer_dest4, 32);
 	// printf("%zu\n", returned_value);
-	ft_returned_value = ft_strlcpy(buffer_dest3, buffer_source3, sizeof(buffer_dest3));
+	ft_returned_value = testfunc(buffer_dest3, buffer_source3, strlen(buffer_dest3));
 	// print_with_nulls(buffer_dest3, 32);
 	// printf("%zu\n", returned_value);
 
 	assert(memcmp(buffer_dest4, buffer_dest3, sizeof(*buffer_dest4)) == 0);
 	assert(returned_value == ft_returned_value);
 
-
 	returned_value = strlcpy(buffer_dest5, buffer_source5, strlen(buffer_source5) + 1);
 	// print_with_nulls(buffer_dest5, 32);
 	// printf("%zu\n", returned_value);
-
-	ft_returned_value = ft_strlcpy(buffer_dest6, buffer_source6, strlen(buffer_source6) + 1);
+	ft_returned_value = testfunc(buffer_dest6, buffer_source6, strlen(buffer_source6) + 1);
 	// print_with_nulls(buffer_dest6, 32);
 	// printf("%zu\n", returned_value);
 
-	assert(memcmp(buffer_dest4, buffer_dest3, sizeof(*buffer_dest4)) == 0);
+	assert(memcmp(buffer_dest5, buffer_dest6, sizeof(*buffer_dest5)) == 0);
 	assert(returned_value == ft_returned_value);
 
 	returned_value = strlcpy(buffer_dest7, buffer_source7, strlen(buffer_source7));
 	// print_with_nulls(buffer_dest7, 32);
 	// printf("%zu\n", returned_value);
-
-	ft_returned_value = ft_strlcpy(buffer_dest8, buffer_source8, strlen(buffer_source8));
+	ft_returned_value = testfunc(buffer_dest8, buffer_source8, strlen(buffer_source8));
 	// print_with_nulls(buffer_dest8, 32);
 	// printf("%zu\n", returned_value);
 
-	assert(memcmp(buffer_dest4, buffer_dest3, sizeof(*buffer_dest4)) == 0);
+	assert(memcmp(buffer_dest7, buffer_dest8, sizeof(*buffer_dest7)) == 0);
 	assert(returned_value == ft_returned_value);
 
 	returned_value = strlcpy(buffer_dest9, buffer_source9, 0);
 	// print_with_nulls(buffer_dest9, 32);
 	// printf("%zu\n", returned_value);
-
-	ft_returned_value = ft_strlcpy(buffer_dest10, buffer_source10, 0);
+	ft_returned_value = testfunc(buffer_dest10, buffer_source10, 0);
 	// print_with_nulls(buffer_dest10, 32);
 	// printf("%zu\n", returned_value);
 
-	assert(memcmp(buffer_dest4, buffer_dest3, sizeof(*buffer_dest4)) == 0);
+	assert(memcmp(buffer_dest9, buffer_dest10, sizeof(*buffer_dest9)) == 0);
 	assert(returned_value == ft_returned_value);
 
 	returned_value = strlcpy(buffer_dest9, buffer_source9, 1);
 	// print_with_nulls(buffer_dest9, 32);
 	// printf("%zu\n", returned_value);
-
-	ft_returned_value = ft_strlcpy(buffer_dest10, buffer_source10, 1);
+	ft_returned_value = testfunc(buffer_dest10, buffer_source10, 1);
 	// print_with_nulls(buffer_dest10, 32);
 	// printf("%zu\n", returned_value);
 
-	assert(memcmp(buffer_dest4, buffer_dest3, sizeof(*buffer_dest4)) == 0);
+	assert(memcmp(buffer_dest9, buffer_dest10, sizeof(*buffer_dest9)) == 0);
 	assert(returned_value == ft_returned_value);
 
 	returned_value = strlcpy(buffer_dest11, buffer_source11, 0);
 	// print_with_nulls(buffer_dest11, 32);
 	// printf("%zu\n", returned_value);
-
-	ft_returned_value = ft_strlcpy(buffer_dest12, buffer_source12, 0);
+	ft_returned_value = testfunc(buffer_dest12, buffer_source12, 0);
 	// print_with_nulls(buffer_dest12, 32);
 	// printf("%zu\n", returned_value);
 
-	assert(memcmp(buffer_dest4, buffer_dest3, sizeof(*buffer_dest4)) == 0);
+	assert(memcmp(buffer_dest11, buffer_dest12, sizeof(*buffer_dest11)) == 0);
 	assert(returned_value == ft_returned_value);
 
 	returned_value = strlcpy(buffer_dest11, buffer_source11, 1);
 	// print_with_nulls(buffer_dest11, 32);
 	// printf("%zu\n", returned_value);
-
-	ft_returned_value = ft_strlcpy(buffer_dest12, buffer_source12, 1);
+	ft_returned_value = testfunc(buffer_dest12, buffer_source12, 1);
 	// print_with_nulls(buffer_dest12, 32);
 	// printf("%zu\n", returned_value);
+
+	assert(memcmp(buffer_dest11, buffer_dest12, sizeof(*buffer_dest11)) == 0);
+	assert(returned_value == ft_returned_value);
 
 	returned_value = strlcpy(buffer_dest13, buffer_source13, 10);
 	// print_with_nulls(buffer_dest13, 32);
 	// printf("%zu\n", returned_value);
-
-	ft_returned_value = ft_strlcpy(buffer_dest14, buffer_source14, 10);
+	ft_returned_value = testfunc(buffer_dest14, buffer_source14, 10);
 	// print_with_nulls(buffer_dest14, 32);
 	// printf("%zu\n", returned_value);
+
+	assert(memcmp(buffer_dest13, buffer_dest14, sizeof(*buffer_dest13)) == 0);
+	assert(returned_value == ft_returned_value);
 
 	// returned_value = strlcpy(buffer_dest14, NULL, 0);
 	// print_with_nulls(NULL, 32);
 	// printf("%zu\n", returned_value);
-
-	// ft_returned_value = ft_strlcpy(NULL, buffer_source14, 0);
+	// ft_returned_value = testfunc(NULL, buffer_source14, 0);
 	// print_with_nulls(NULL, 32);
 	// printf("%zu\n", returned_value);
 
-	free(malloced_destination);
-	free(ft_malloced_destination);
+	char *strings_to_free[] = {buffer_source, buffer_dest, buffer_source2, buffer_dest2,
+		buffer_source3, buffer_dest3, buffer_source4, buffer_dest4, buffer_source5, buffer_dest5,
+		buffer_source6, buffer_dest6, buffer_source7, buffer_dest7, buffer_source8, buffer_dest8,
+		buffer_source9, buffer_dest9, buffer_source10, buffer_dest10, buffer_source11, buffer_dest11,
+		buffer_source12, buffer_dest12, buffer_source13, buffer_dest13, buffer_source14, buffer_dest14};
+
+	// printf( "%zu\n", strlen(*strings_to_free));
+	for (size_t ite = 0; ite < 28; ite++)
+	{
+		free(strings_to_free[ite]);
+	}
+}
+
+void	test_strlcat(size_t (*testfunc)(char*, const char*, size_t))
+{
+	size_t returned_value;
+	size_t ft_returned_value;
+	char source[] = "abcdefghijklmnopqrstuvwxyzhhhhh";
+    char destination[60];
+	char ft_destination[60];
+	char *buffer_dest = strdup("ABCDEFGHIJKLMNOPQRSTUVWXYZ");
+	char *buffer_source = strdup("abcdefghijklmnopqrstuvwxyzhhhhh");
+	char *buffer_dest2 = strdup("ABCDEFGHIJKLMNOPQRSTUVWXYZ");
+	char *buffer_source2 = strdup("abcdefghijklmnopqrstuvwxyzhhhhh");
+	char buffer_dest3[50] = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+	char buffer_source3[50] = "abcdef";
+	char buffer_dest4[50] = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+	char buffer_source4[50] = "abcdef";
+	char buffer_dest5[36] = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+	char buffer_source5[10] = "123456789";
+	char buffer_dest6[36] = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+	char buffer_source6[10] = "123456789";
+	char buffer_dest7[50] = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+	char buffer_source7[50] = "123456789";
+	char buffer_dest8[50] = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+	char buffer_source8[50] = "123456789";
+	char buffer_dest9[50] = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+	char buffer_source9[50] = "";
+	char buffer_dest10[50] = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+	char buffer_source10[50] = "";
+	char buffer_dest11[50] = "";
+	char buffer_source11[50] = "123456789";
+	char buffer_dest12[50] = "";
+	char buffer_source12[50] = "123456789";
+	char buffer_dest13[50] = "";
+	char buffer_source13[50] = "";
+	char buffer_dest14[50] = "";
+	char buffer_source14[50] = "";
+
+	char source2[] = "Au revoir messieurs dames\0";
+
+	destination[0] = '\0';
+	ft_destination[0] = '\0';
+
+	// printf("Testing without memory allocation, empty destination, 15 bytes;\n");
+
+    testfunc(ft_destination, source, 15);
+	strlcat(destination, source, 15);
+	// printf("Source string: %s\n", source);
+    // printf("Destination string with our function: %s\n", ft_destination);
+	// printf("Destination string with the real strlcat: %s\n", destination);
+	assert(strcmp(ft_destination, destination) == 0);
+
+	// printf("\nTesting without memory allocation, destination with a string in it, 15 bytes;\n");
+
+    testfunc(ft_destination, source2, 15);
+	strlcat(destination, source2, 15);
+	// printf("Source string: %s\n", source2);
+    // printf("Destination string with our function: %s\n", ft_destination);
+	// printf("Destination string with the real strlcat: %s\n", destination);
+	assert(strcmp(ft_destination, destination) == 0);
+
+	// printf("Source string: %s\n", buffer_source);
+	// printf("Dest string: %s\n", buffer_dest);
+	// printf("uh?:%zu\n", sizeof(buffer_dest));
+	returned_value = strlcat(buffer_dest, buffer_source, strlen(buffer_dest) + 1);
+	// print_with_nulls(buffer_dest, 32);
+	// printf("%zu\n", returned_value);
+	// printf("Source string2: %s\n", buffer_source2);
+	// printf("Dest string: %s\n", buffer_dest);
+	ft_returned_value = testfunc(buffer_dest2, buffer_source2, strlen(buffer_dest2) + 1);
+	// print_with_nulls(buffer_dest2, 32);
+	// printf("%zu\n", ft_returned_value);
+
+	assert(memcmp(buffer_dest, buffer_dest2, sizeof(*buffer_dest)) == 0);
+	assert(returned_value == ft_returned_value);
+
+
+	/*Testing with a off-by one error, not giving it enough space for the terminator*/
+
+	returned_value = strlcat(buffer_dest4, buffer_source4, strlen(buffer_dest4) + strlen(buffer_source4));
+	// print_with_nulls(buffer_dest4, returned_value);
+	// printf("%zu\n", returned_value);
+	ft_returned_value = testfunc(buffer_dest3, buffer_source3, strlen(buffer_dest3) + strlen(buffer_source3));
+	// print_with_nulls(buffer_dest3, ft_returned_value);
+	// printf("%zu\n", ft_returned_value);
+
+	assert(memcmp(buffer_dest4, buffer_dest3, sizeof(*buffer_dest4)) == 0);
+	assert(returned_value == ft_returned_value);
+
+	/*Testing with an exact buffer fit, confirming that everything works*/
+
+	returned_value = strlcat(buffer_dest5, buffer_source5, (strlen(buffer_dest5) + strlen(buffer_source5) + 1));
+	// print_with_nulls(buffer_dest5, returned_value);
+	// printf("%zu\n", returned_value);
+	ft_returned_value = testfunc(buffer_dest6, buffer_source6, (strlen(buffer_dest6) + strlen(buffer_source6) + 1));
+	// print_with_nulls(buffer_dest6, ft_returned_value);
+	// printf("%zu\n", ft_returned_value);
+
+	assert(memcmp(buffer_dest5, buffer_dest6, sizeof(*buffer_dest5)) == 0);
+	assert(returned_value == ft_returned_value);
+
+	/*Testing with size is 0*/
+
+	returned_value = strlcat(buffer_dest7, buffer_source7, 0);
+	// print_with_nulls(buffer_dest7, returned_value);
+	// printf("%zu\n", returned_value);
+	ft_returned_value = testfunc(buffer_dest8, buffer_source8, 0);
+	// print_with_nulls(buffer_dest8, ft_returned_value);
+	// printf("%zu\n", ft_returned_value);
+
+	assert(memcmp(buffer_dest7, buffer_dest8, sizeof(*buffer_dest7)) == 0);
+	assert(returned_value == ft_returned_value);
+
+	returned_value = strlcat(buffer_dest9, buffer_source9, 0);
+	// print_with_nulls(buffer_dest9, 32);
+	// printf("%zu\n", returned_value);
+	ft_returned_value = testfunc(buffer_dest10, buffer_source10, 0);
+	// print_with_nulls(buffer_dest10, 32);
+	// printf("%zu\n", ft_returned_value);
+
+	/* Testing when dst is "", when src is "", and when both are empty */
+
+	assert(memcmp(buffer_dest9, buffer_dest10, sizeof(*buffer_dest9)) == 0);
+	assert(returned_value == ft_returned_value);
+
+	returned_value = strlcat(buffer_dest9, buffer_source9, (strlen(buffer_dest9) + strlen(buffer_source9) + 1));
+	// print_with_nulls(buffer_dest9, returned_value);
+	// printf("%zu\n", returned_value);
+	ft_returned_value = testfunc(buffer_dest10, buffer_source10, (strlen(buffer_dest10) + strlen(buffer_source10) + 1));
+	// print_with_nulls(buffer_dest10, ft_returned_value);
+	// printf("%zu\n", ft_returned_value);
+
+	assert(memcmp(buffer_dest9, buffer_dest10, sizeof(*buffer_dest11)) == 0);
+	assert(returned_value == ft_returned_value);
+
+	returned_value = strlcat(buffer_dest11, buffer_source11, (strlen(buffer_dest11) + strlen(buffer_source11) + 1));
+	// print_with_nulls(buffer_dest11, returned_value);
+	// printf("%zu\n", returned_value);
+	ft_returned_value = testfunc(buffer_dest12, buffer_source12, (strlen(buffer_dest12) + strlen(buffer_source12) + 1));
+	// print_with_nulls(buffer_dest12, ft_returned_value);
+	// printf("%zu\n", ft_returned_value);
+
+	assert(memcmp(buffer_dest13, buffer_dest14, sizeof(*buffer_dest13)) == 0);
+	assert(returned_value == ft_returned_value);
+
+	returned_value = strlcat(buffer_dest13, buffer_source13, (strlen(buffer_dest13) + strlen(buffer_source13) + 1));
+	// print_with_nulls(buffer_dest13, returned_value);
+	// printf("%zu\n", returned_value);
+	ft_returned_value = testfunc(buffer_dest14, buffer_source14, (strlen(buffer_dest14) + strlen(buffer_source14) + 1));
+	// print_with_nulls(buffer_dest14, ft_returned_value);
+	// printf("%zu\n", ft_returned_value);
+
+	char *strings_to_free[] = {buffer_source, buffer_dest, buffer_source2, buffer_dest2};
+
+	// printf( "%zu\n", strlen(*strings_to_free));
+	for (size_t ite = 0; ite < 2; ite++)
+	{
+		free(strings_to_free[ite]);
+	}
 }
 
 int	main(void)
@@ -589,132 +730,21 @@ int	main(void)
 	test_strlcpy(ft_strlcpy);
 	printf("...\nTests ft_strlcpy passed!\n\n\n");
 
+	printf("Testing ft_strlcat:\n");
+	test_strlcat(ft_strlcat);
+	printf("...\nTests ft_strlcat passed!\n\n\n");
 
-	// char buffer_dest[30] = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-	// char buffer_source[6] = "abcde";
-	// char buffer_dest2[30] = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-	// char buffer_source2[6] = "abcde";
-	char *buffer_dest = strdup("ABCDEFGHIJKLMNOPQRSTUVWXYZ");
-	char *buffer_source = strdup("abcdefghijklmnopqrstuvwxyzhhhhh");
-	char *buffer_dest2 = strdup("ABCDEFGHIJKLMNOPQRSTUVWXYZ");
-	char *buffer_source2 = strdup("abcdefghijklmnopqrstuvwxyzhhhhh");
-	char *buffer_dest3 = strdup("ABCDEFGHIJKLMNOPQRSTUVWXYZ");
-	char *buffer_source3 = strdup("abcdef");
-	char *buffer_dest4 = strdup("ABCDEFGHIJKLMNOPQRSTUVWXYZ");
-	char *buffer_source4 = strdup("abcdef");
-	char *buffer_dest5 = strdup("ABCDEFGHIJKLMNOPQRSTUVWXYZ");
-	char *buffer_source5 = strdup("123456789");
-	char *buffer_dest6 = strdup("ABCDEFGHIJKLMNOPQRSTUVWXYZ");
-	char *buffer_source6 = strdup("123456789");
-	char *buffer_dest7 = strdup("ABCDEFGHIJKLMNOPQRSTUVWXYZ");
-	char *buffer_source7 = strdup("123456789");
-	char *buffer_dest8 = strdup("ABCDEFGHIJKLMNOPQRSTUVWXYZ");
-	char *buffer_source8 = strdup("123456789");
-	char *buffer_dest9 = strdup("ABCDEFGHIJKLMNOPQRSTUVWXYZ");
-	char *buffer_source9 = strdup("abcdef");
-	char *buffer_dest10 = strdup("ABCDEFGHIJKLMNOPQRSTUVWXYZ");
-	char *buffer_source10 = strdup("abcdef");
-	char *buffer_dest11 = strdup("ABCDEFGHIJKLMNOPQRSTUVWXYZ");
-	char *buffer_source11 = strdup("");
-	char *buffer_dest12 = strdup("ABCDEFGHIJKLMNOPQRSTUVWXYZ");
-	char *buffer_source12 = strdup("");
-	char *buffer_dest13 = strdup("ABCDEFGHIJKLMNOPQRSTUVWXYZ");
-	char *buffer_source13 = strdup("");
-	char *buffer_dest14 = strdup("ABCDEFGHIJKLMNOPQRSTUVWXYZ");
-	char *buffer_source14 = strdup("");
+	printf("Testing ft_toupper:\n");
+	assert(ft_toupper('a') == toupper('a'));
+	assert(ft_toupper('A') == toupper('A'));
+	assert(ft_toupper('0') == toupper('0'));
+	assert(ft_toupper(')') == toupper(')'));
+	printf("...\nTests ft_toupper passed!\n\n\n");
 
-	size_t returned_value;
- 
-	returned_value = strlcpy(buffer_dest, buffer_source, sizeof(buffer_dest));
-	print_with_nulls(buffer_dest, 32);
-	printf("%zu\n", returned_value);
-
-	returned_value = ft_strlcpy(buffer_dest2, buffer_source2, sizeof(buffer_dest2));
-	print_with_nulls(buffer_dest2, 32);
-	printf("%zu\n", returned_value);
-
-	returned_value = strlcpy(buffer_dest4, buffer_source4, sizeof(buffer_dest4));
-	print_with_nulls(buffer_dest4, 32);
-	printf("%zu\n", returned_value);
-
-	returned_value = ft_strlcpy(buffer_dest3, buffer_source3, sizeof(buffer_dest3));
-	print_with_nulls(buffer_dest3, 32);
-	printf("%zu\n", returned_value);
-
-	returned_value = strlcpy(buffer_dest5, buffer_source5, strlen(buffer_source5) + 1);
-	print_with_nulls(buffer_dest5, 32);
-	printf("%zu\n", returned_value);
-
-	returned_value = ft_strlcpy(buffer_dest6, buffer_source6, strlen(buffer_source6) + 1);
-	print_with_nulls(buffer_dest6, 32);
-	printf("%zu\n", returned_value);
-
-	returned_value = strlcpy(buffer_dest7, buffer_source7, strlen(buffer_source7));
-	print_with_nulls(buffer_dest7, 32);
-	printf("%zu\n", returned_value);
-
-	returned_value = ft_strlcpy(buffer_dest8, buffer_source8, strlen(buffer_source8));
-	print_with_nulls(buffer_dest8, 32);
-	printf("%zu\n", returned_value);
-
-	returned_value = strlcpy(buffer_dest9, buffer_source9, 0);
-	print_with_nulls(buffer_dest9, 32);
-	printf("%zu\n", returned_value);
-
-	returned_value = ft_strlcpy(buffer_dest10, buffer_source10, 0);
-	print_with_nulls(buffer_dest10, 32);
-	printf("%zu\n", returned_value);
-
-	returned_value = strlcpy(buffer_dest9, buffer_source9, 1);
-	print_with_nulls(buffer_dest9, 32);
-	printf("%zu\n", returned_value);
-
-	returned_value = ft_strlcpy(buffer_dest10, buffer_source10, 1);
-	print_with_nulls(buffer_dest10, 32);
-	printf("%zu\n", returned_value);
-
-	returned_value = strlcpy(buffer_dest11, buffer_source11, 0);
-	print_with_nulls(buffer_dest11, 32);
-	printf("%zu\n", returned_value);
-
-	returned_value = ft_strlcpy(buffer_dest12, buffer_source12, 0);
-	print_with_nulls(buffer_dest12, 32);
-	printf("%zu\n", returned_value);
-
-	returned_value = strlcpy(buffer_dest11, buffer_source11, 1);
-	print_with_nulls(buffer_dest11, 32);
-	printf("%zu\n", returned_value);
-
-	returned_value = ft_strlcpy(buffer_dest12, buffer_source12, 1);
-	print_with_nulls(buffer_dest12, 32);
-	printf("%zu\n", returned_value);
-
-	returned_value = strlcpy(buffer_dest13, buffer_source13, 10);
-	print_with_nulls(buffer_dest13, 32);
-	printf("%zu\n", returned_value);
-
-	returned_value = ft_strlcpy(buffer_dest14, buffer_source14, 10);
-	print_with_nulls(buffer_dest14, 32);
-	printf("%zu\n", returned_value);
-
-	// returned_value = strlcpy(buffer_dest14, NULL, 0);
-	// print_with_nulls(NULL, 32);
-	// printf("%zu\n", returned_value);
-
-	returned_value = ft_strlcpy(NULL, buffer_source14, 0);
-	// print_with_nulls(NULL, 32);
-	printf("%zu\n", returned_value);
-
-	// test_ex0(ft_create_elem);
-	// printf("\nTests Ex0 Passed!\n\n\n\n");
-	// printf("%i\n", ft_isalpha('a'));
-	// printf("%i\n", ft_isalpha('A'));
-	// printf("%i\n", ft_isalpha('0'));
-	// printf("%i\n", isascii('a'));
-	// printf("%i\n", isascii('A'));
-	// printf("%i\n", isascii('0'));
-	// printf("%i\n", isascii(256));
-	// printf("%i\n", isascii(-1));
-	// printf("%i\n", isascii(127));	
-	// printf("%i\n", ft_isascii(128));
+	printf("Testing ft_tolower:\n");
+	assert(ft_tolower('a') == tolower('a'));
+	assert(ft_tolower('A') == tolower('A'));
+	assert(ft_tolower('0') == tolower('0'));
+	assert(ft_tolower(')') == tolower(')'));
+	printf("...\nTests ft_tolower passed!\n\n\n");
 }
